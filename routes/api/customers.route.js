@@ -19,6 +19,10 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/test', async (req, res) => {
+    console.log("Test ok")
+});
+
 router.get('/profile', async (req, res) => {
     try {
         const customers = await Customers.findAll({
