@@ -90,7 +90,7 @@ router.get('/filter', async (req, res) => {
   @param  beginDate & endDate
 -----*/
 
-router.get('/filter', async (req, res) => {
+router.get('/filter/date', async (req, res) => {
     try {       
         const order = await Order.findAll({
             where: {

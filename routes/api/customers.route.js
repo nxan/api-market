@@ -60,12 +60,12 @@ router.get('/type', async (req, res) => {
 });
 
 router.post('/', async(req, res) => {
-    const {fullname, phone, bank_code, bank_location, type, card} = req.body;
+    const {fullname, phone, bank_code, bank_name, bank_location, type, card} = req.body;
     
     try {
         console.log(req.body)
         let customer = new Customers({
-            fullname, phone, bank_code, bank_location, type, card
+            fullname, phone, bank_code, bank_name, bank_location, type, card
         })
         await customer.save();
         res.status(200).json({
@@ -80,13 +80,14 @@ router.post('/', async(req, res) => {
 })
 
 router.put('/', async(req, res) => {    
-    const { id, fullname, phone, bank_code, bank_location, type, card } = req.body;
+    const { id, fullname, phone, bank_code, bank_location, bank_name, type, card } = req.body;
     var customerField = {};    
     if (id) customerField.id = id
     if (fullname) customerField.fullname = fullname;
     if (phone) customerField.phone = phone;
     if (bank_code) customerField.bank_code = bank_code;
     if (bank_location) customerField.bank_location = bank_location;
+    if (bank_name) customerField.bank_name = bank_name;
     if (type) customerField.type = type;
     if (card) customerField.card = card;
     
@@ -96,11 +97,12 @@ router.put('/', async(req, res) => {
         });
         if (customer) {
             customer.update({
-                attributes: ['fullname', 'phone', 'bank_code', 'bank_location', 'type', 'card'],
+                attributes: ['fullname', 'phone', 'bank_code', 'bank_location', 'bank_name' ,'type', 'card'],
                 fullname: customerField.fullname,
                 phone: customerField.phone,
                 bank_code: customerField.bank_code,
                 bank_location: customerField.bank_location,
+                bank_name: customerField.bank_name,
                 type: customerField.type,
                 card: customerField.card
             });

@@ -19,6 +19,9 @@ const Customers = db.define('customers', {
     bank_location: {
         type: Sequelize.STRING
     },
+    bank_name: {
+        type: Sequelize.STRING
+    },
     type: {
         type: Sequelize.STRING
     },
