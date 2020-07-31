@@ -11,7 +11,7 @@ const Order = db.define('order', {
         type: Sequelize.INTEGER
     }, 
     order_type: {
-        type: Sequelize.INTEGER
+        type: Sequelize.TINYINT
     },    
     date: {
         type: Sequelize.DATE

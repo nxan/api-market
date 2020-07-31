@@ -40,6 +40,30 @@ router.get('/filter', async (req, res) => {
     }
 });
 
+router.post('/', async(req, res) => {
+    const {order_id, product_id, unit, weight} = req.body;
+    try {
+        console.log(req.body)
+        let orderDetail = new OrderDetail({
+            order_id: order_id,
+            product_id: product_id,
+            unit: unit,
+            weight: weight,
+            money: unit * weight
+        })
+        await orderDetail.save();
+        res.status(200).json({
+            rsp: {
+                status: res.statusCode
+            }
+        }) 
+        
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server error');
+    }
+})
+
 router.delete('/', async (req, res) => {
     try {
         const orderDetail = await OrderDetail.findOne({

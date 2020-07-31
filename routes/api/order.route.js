@@ -215,25 +215,27 @@ router.post('/', async(req, res) => {
 })
 
 router.put('/', async(req, res) => {    
-    const { id, order_type, date, payment, note } = req.body;
+    const { id, customer_id, order_type, date, payment, note } = req.body;
     var orderFields = {};    
-    if (id) orderFields.id = id
-    if (order_type) orderFields.order_type = order_type;
+    if(id) orderFields.id = id
+    if(order_type) orderFields.order_type = order_type;
     if(date) orderFields.date = date;
     if(payment) orderFields.payment = payment
     if(note) orderFields.note = note
-    
+    if(customer_id) orderFields.customer_id = customer_id
+    console.log(req.body)
     try {
         var order = await Order.findOne({
             where: { id: orderFields.id }
         });
         if (order) {
             order.update({
-                attributes: ['order_type', 'date', 'payment', 'note'],
+                attributes: ['customer_id', 'order_type', 'date', 'payment', 'note'],                
                 order_type: orderFields.order_type,
                 date: orderFields.date,
-                payment: orderFields.payment,
-                note: orderFields.note
+                payment: orderFields.payment,                
+                note: orderFields.note,
+                customer_id: orderFields.customer_id
             });
         }
 
@@ -250,7 +252,6 @@ router.put('/', async(req, res) => {
 
         if(arrayOrderDetail) {
             Array.from(arrayOrderDetail).forEach(async (element) => {
-                console.log(element)
                 var orderdetail = await OrderDetail.findOne({
                     where: { id: element.id }
                 })
@@ -268,8 +269,7 @@ router.put('/', async(req, res) => {
 
         return res.status(200).json({
             rsp: {
-                status: "ok",
-                data: order,
+                status: res.statusCode
             }                
         })        
     } catch (err) {
