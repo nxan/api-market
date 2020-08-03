@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/db');
 
-const Order = db.define('order', {
+const PrePaid = db.define('prepay', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -9,18 +9,12 @@ const Order = db.define('order', {
     },
     customer_id: {
         type: Sequelize.INTEGER
+    },
+    money: {
+        type: Sequelize.DOUBLE
     }, 
-    order_type: {
-        type: Sequelize.INTEGER
-    },    
     date: {
         type: Sequelize.DATE
-    }, 
-    payment: {
-        type: Sequelize.INTEGER
-    }, 
-    note: {
-        type: Sequelize. STRING
     }
 }, {
         timestamps: false,
@@ -28,4 +22,4 @@ const Order = db.define('order', {
     }
 );
 
-module.exports = Order;
+module.exports = PrePaid;

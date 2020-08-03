@@ -15,6 +15,7 @@ app.use(
 
 app.use('/v1/customers', require('./routes/api/customers.route'))
 app.use('/v1/products', require('./routes/api/products.route'))
+app.use('/v1/prepaid', require('./routes/api/prepaid.route'))
 app.use('/v1/order', require('./routes/api/order.route'))
 app.use('/v1/orderdetail', require('./routes/api/order_detail.route'))
 
