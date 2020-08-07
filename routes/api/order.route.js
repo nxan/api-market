@@ -91,7 +91,7 @@ router.get('/filter', async (req, res) => {
 -----*/
 
 router.get('/filter', async (req, res) => {
-    try {       
+    try {               
         const order = await Order.findAll({
             where: {
                 date: {
@@ -133,10 +133,12 @@ router.get('/filter', async (req, res) => {
 
 router.get('/filter/customer', async (req, res) => {
     try {       
+        console.log(req.query.begindate)
+        console.log(req.query.enddate)
         const order = await Order.findAll({
             where: {
                 date: {
-                  [Op.between]: [req.query.begindate, req.query.enddate]
+                  [Op.between]: [(convertUTCDateToLocalDate(new Date(req.query.begindate))), convertUTCDateToLocalDate(new Date(req.query.enddate))]
                 }, 
                 customer_id: req.query.customer_id
             },
@@ -340,5 +342,10 @@ router.delete('/orderdetail', async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
+
+function convertUTCDateToLocalDate(date) {
+    var newDate = new Date(date.getTime() - date.getTimezoneOffset()*60*1000);
+    return newDate;   
+}
 
 module.exports = router;
