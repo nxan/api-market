@@ -39,8 +39,8 @@ router.post('/', async(req, res) => {
         const prepaid = await PrePaid.findOne({
             where: {
                 customer_id: customer_id,
-                date: date
-              }   
+                date: (convertUTCDateToLocalDate(new Date(req.body.date)))
+              }                 
         });
 
         if(prepaid) {
@@ -97,6 +97,7 @@ router.get('/filter', async (req, res) => {
 
 function convertUTCDateToLocalDate(date) {
     var newDate = new Date(date.getTime() - date.getTimezoneOffset()*60*1000);
+    console.log(newDate)
     return newDate;   
 }
 

@@ -140,7 +140,8 @@ router.get('/filter/customer', async (req, res) => {
                 date: {
                   [Op.between]: [(convertUTCDateToLocalDate(new Date(req.query.begindate))), convertUTCDateToLocalDate(new Date(req.query.enddate))]
                 }, 
-                customer_id: req.query.customer_id
+                customer_id: req.query.customer_id,
+                payment: req.query.payment 
             },
             include: [{
                 model: Customer, as: 'customer',
@@ -337,6 +338,36 @@ router.delete('/orderdetail', async (req, res) => {
                 message: "Order removed"
             }
         })
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+router.put('/payment', async(req, res) => {        
+    try {
+        var order = await Order.findAll({
+            where: { 
+                date: {
+                    [Op.between]: [(convertUTCDateToLocalDate(new Date(req.query.begindate))), convertUTCDateToLocalDate(new Date(req.query.enddate))]
+                  }, 
+                  customer_id: req.query.customer_id
+             }
+        });       
+
+        Array.from(order).forEach(async (element) => {
+            element.update({
+                attributes: ['payment'],
+                payment: req.query.payment
+            })
+        })
+
+        return res.status(200).json({
+            rsp: {
+                status: "ok",
+                data: order,
+            }                
+        })        
     } catch (err) {
         console.log(err.message);
         res.status(500).send('Server Error');
