@@ -3,25 +3,6 @@ const db = require('./config/db');
 
 const app = express();
 
-const {Storage} = require('@google-cloud/storage');
-
-const storage = new Storage();
-async function listBuckets() {
-  try {
-    const results = await storage.getBuckets();
-
-    const [buckets] = results;
-
-    console.log('Buckets:');
-    buckets.forEach((bucket) => {
-      console.log(bucket.name);
-    });
-  } catch (err) {
-    console.error('ERROR:', err);
-  }
-}
-listBuckets();
-
 db.authenticate()
   .then(() => console.log('Database connected....'))
   .catch(err => console.log('Error' + err))
